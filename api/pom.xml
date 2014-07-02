@@ -1,0 +1,152 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!-- camunda BPM parent release pom -->
+  <parent>
+    <groupId>org.camunda.bpm.cockpit</groupId>
+    <artifactId>camunda-cockpit-plugin-base-root</artifactId>
+    <version>7.2.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>camunda-cockpit-plugin-base</artifactId>
+  <name>camunda BPM - cockpit - plugin base</name>
+  <packaging>jar</packaging>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>org.camunda.bpm.cockpit</groupId>
+      <artifactId>camunda-cockpit-plugin-base-ui</artifactId>
+      <version>${project.version}</version>
+      <scope>provided</scope>
+      <type>zip</type>
+    </dependency>
+
+    <dependency>
+      <groupId>org.camunda.bpm.webapp</groupId>
+      <artifactId>camunda-webapp-core</artifactId>
+      <version>${project.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.camunda.bpm</groupId>
+      <artifactId>camunda-engine</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jboss.spec</groupId>
+      <artifactId>jboss-javaee-6.0</artifactId>
+      <type>pom</type>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.easytesting</groupId>
+      <artifactId>fest-assert</artifactId>
+      <version>1.4</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.fasterxml.uuid</groupId>
+      <artifactId>java-uuid-generator</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+    </resources>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.17</version>
+          <configuration>
+            <redirectTestOutputToFile>true</redirectTestOutputToFile>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <version>2.3.7</version>
+          <extensions>true</extensions>
+          <configuration>
+            <instructions>
+              <Export-Package>org.camunda.bpm.cockpit.plugin*</Export-Package>
+            </instructions>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>2.4</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+         <groupId>org.apache.maven.plugins</groupId>
+         <artifactId>maven-dependency-plugin</artifactId>
+         <version>2.8</version>
+         <executions>
+           <execution>
+             <id>unpack</id>
+             <phase>process-resources</phase>
+             <goals>
+               <goal>unpack</goal>
+             </goals>
+             <configuration>
+               <artifactItems>
+                 <artifactItem>
+                   <groupId>org.camunda.bpm.cockpit</groupId>
+                   <artifactId>camunda-cockpit-plugin-base-ui</artifactId>
+                   <type>zip</type>
+                 </artifactItem>
+               </artifactItems>
+               <outputDirectory>${project.build.directory}/classes/base/app</outputDirectory>
+             </configuration>
+           </execution>
+         </executions>
+        </plugin>
+
+    </plugins>
+  </build>
+
+  <scm>
+    <url>https://github.com/camunda/camunda-cockpit-plugin-base</url>
+    <connection>scm:git:git@github.com:camunda/camunda-cockpit-plugin-base.git</connection>
+    <developerConnection>scm:git:git@github.com:camunda/camunda-cockpit-plugin-base.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+
+</project>

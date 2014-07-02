@@ -1,0 +1,65 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!-- camunda BPM parent release pom -->
+  <parent>
+    <groupId>org.camunda.bpm.cockpit</groupId>
+    <artifactId>camunda-cockpit-plugin-base-root</artifactId>
+    <version>7.2.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>camunda-cockpit-plugin-base-ui</artifactId>
+  <name>camunda BPM - cockpit - plugin base ui</name>
+  <packaging>pom</packaging>
+
+  <build>
+    <plugins>
+      <!-- create distribution zip -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>generate-zip</id>
+            <phase>package</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <inherited>false</inherited>
+            <configuration>
+              <tasks>
+                <mkdir dir="${basedir}/target/" />
+                <zip destfile="${basedir}/target/dist.zip" basedir="dist/" />
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- attach zip to the build -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.8</version>
+        <executions>
+          <execution>
+            <id>attach-artifacts</id>
+            <phase>package</phase>
+            <goals>
+              <goal>attach-artifact</goal>
+            </goals>
+            <configuration>
+              <artifacts>
+                <artifact>
+                  <file>${basedir}/target/dist.zip</file>
+                  <type>zip</type>
+                </artifact>
+              </artifacts>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+  </build>
+
+</project>

@@ -43,14 +43,13 @@ public class BasePlugin extends AbstractCockpitPlugin {
     return classes;
   }
 
-  @Override
-  public String getId() {
-    return ID;
+  public String getAssetDirectory() {
+    return "base";
   }
 
   @Override
-  public String getAssetDirectory() {
-    return "plugin/base";
+  public String getId() {
+    return ID;
   }
 
   @Override
