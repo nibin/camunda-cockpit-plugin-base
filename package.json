@@ -1,0 +1,23 @@
+{
+  "private": true,
+  "name": "camunda-cockpit-plugin-base",
+  "version": "7.2.0-SNAPSHOT",
+  "description": "camunda BPM pltaform cockpit plugin base",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/camunda/camunda-cockpit-plugin-base.git"
+  },
+  "keywords": [
+    "camunda"
+  ],
+  "author": "Daniel Meyer <daniel.meyer@camunda.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/camunda/camunda-cockpit-plugin-base/issues"
+  },
+  "homepage": "https://github.com/camunda/camunda-cockpit-plugin-base"
+}
