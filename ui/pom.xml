@@ -29,7 +29,7 @@
             <configuration>
               <tasks>
                 <mkdir dir="${basedir}/target/" />
-                <zip destfile="${basedir}/target/dist.zip" basedir="dist/" />
+                <zip destfile="${basedir}/target/dist.zip" basedir="client/" />
               </tasks>
             </configuration>
           </execution>
