@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.camunda.bpm.cockpit</groupId>
     <artifactId>camunda-cockpit-plugin-base-root</artifactId>
-    <version>7.2.0-alpha3</version>
+    <version>7.2.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>camunda-cockpit-plugin-base-ui</artifactId>

@@ -12,7 +12,7 @@
 
   <groupId>org.camunda.bpm.cockpit</groupId>
   <artifactId>camunda-cockpit-plugin-base-root</artifactId>
-  <version>7.2.0-alpha3</version>
+  <version>7.2.0-SNAPSHOT</version>
   <name>camunda BPM - cockpit - plugin base root</name>
   <packaging>pom</packaging>
 
@@ -68,7 +68,7 @@
     <url>https://github.com/camunda/camunda-cockpit-plugin-base</url>
     <connection>scm:git:git@github.com:camunda/camunda-cockpit-plugin-base.git</connection>
     <developerConnection>scm:git:git@github.com:camunda/camunda-cockpit-plugin-base.git</developerConnection>
-    <tag>7.2.0-alpha3</tag>
+    <tag>HEAD</tag>
   </scm>
 
 </project>
