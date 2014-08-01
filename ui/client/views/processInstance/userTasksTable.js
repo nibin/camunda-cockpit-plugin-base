@@ -185,7 +185,6 @@ ngDefine('cockpit.plugin.base.views', function(module) {
       );
     };
 
-
     $scope.openDialog = function(userTask, groups) {
       $modal.open({
         resolve: {
@@ -193,7 +192,8 @@ ngDefine('cockpit.plugin.base.views', function(module) {
           groups: function() { return groups; }
         },
         controller: 'UserTaskGroupController',
-        templateUrl: require.toUrl('./plugin/base/app/views/processInstance/identity-links-modal.html')
+        // quick fix, should probably use the URI service...
+        templateUrl: require.toUrl('./../../api/cockpit/plugin/base/static/app/views/processInstance/identity-links-modal.html')
       });
     };
 
