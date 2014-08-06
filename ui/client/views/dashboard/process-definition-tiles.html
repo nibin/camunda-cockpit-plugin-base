@@ -9,10 +9,10 @@
     <a ng-repeat="statistic in statistics | orderBy:orderByPredicate:orderByReverse"
          ng-cloak class="tile linkable-tile" href="#/process-definition/{{ statistic.definition.id }}">
       <span class="tile-header">
-        <span ngm-if="isProcessDefinitionNameLong(statistic.definition.name)" title="{{ statistic.definition.name }}">
+        <span ng-show="isProcessDefinitionNameLong(statistic.definition.name)" title="{{ statistic.definition.name }}">
           {{ shortcutProcessDefinitionName(statistic.definition.name) }}
         </span>
-        <span ngm-if="!isProcessDefinitionNameLong(statistic.definition.name)">
+        <span ng-hide="isProcessDefinitionNameLong(statistic.definition.name)">
           {{ statistic.definition.name }}
         </span>
       </span>
