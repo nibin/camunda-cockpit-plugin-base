@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.camunda.bpm.cockpit</groupId>
     <artifactId>camunda-cockpit-plugin-base-root</artifactId>
-    <version>7.2.0-alpha4</version>
+    <version>7.2.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>camunda-cockpit-plugin-base</artifactId>
@@ -384,7 +384,7 @@
     <url>https://github.com/camunda/camunda-cockpit-plugin-base</url>
     <connection>scm:git:git@github.com:camunda/camunda-cockpit-plugin-base.git</connection>
     <developerConnection>scm:git:git@github.com:camunda/camunda-cockpit-plugin-base.git</developerConnection>
-    <tag>7.2.0-alpha4</tag>
+    <tag>HEAD</tag>
   </scm>
 
 </project>
