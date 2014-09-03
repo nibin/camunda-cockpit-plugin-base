@@ -13,6 +13,11 @@ ngDefine('cockpit.plugin.base.resources', function(module) {
         isArray: true
       },
 
+      delete: {
+        url: Uri.appUri('engine://engine/:engine/process-instance/:id'),
+        method: 'DELETE'
+      },
+
       count: {
         method: 'POST',
         isArray: false,
