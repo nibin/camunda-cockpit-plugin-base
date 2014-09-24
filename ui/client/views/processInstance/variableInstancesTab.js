@@ -202,6 +202,10 @@ ngDefine('cockpit.plugin.base.views', ['require'], function(module, require) {
       return variable.type === 'serializable' || variable.type === 'Serializable';
     };
 
+    var isSpinSerializable = $scope.isSpinSerializable = function (variable) {
+      return variable.variableType === 'spin-serialization';
+    };
+
     var isPrimitive = $scope.isPrimitive = function (variable) {
       return isInteger(variable) ||
         isShort(variable) ||

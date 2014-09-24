@@ -61,6 +61,17 @@
           </a>
         </div>
 
+        <!-- spin-serializable variable -->
+        <div ng-if="isSpinSerializable(variable) && !variable.errorMessage">
+          <a class="muted"
+             ng-click="openInspectDialog(variable)"
+             href
+             tooltip="Click to Inspect"
+             tooltip-placement="right">
+            {{ variable.serializationConfig.rootType }}
+          </a>
+        </div>
+
         <form class="inline-edit" name="editVariableForm" ng-if="variable.inEditMode" ng-submit="submit(variable, this.editVariableForm)" novalidate request-aware>
 
           <fieldset>
