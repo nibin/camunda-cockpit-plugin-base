@@ -18,9 +18,11 @@ ngDefine('cockpit.plugin.base.views', function(module) {
 
     $scope.status = BEFORE_UPDATE;
 
-    $scope.includeInstances = true;
-    $scope.executeImmediately = true;
-    $scope.executionDate = dateFilter(Date.now(), dateFormat);
+    $scope.data = {
+      includeInstances : true,
+      executeImmediately : true,
+      executionDate : dateFilter(Date.now(), dateFormat)
+    };
 
     $scope.$on('$routeChangeStart', function () {
       $modalInstance.close($scope.status);
@@ -32,15 +34,15 @@ ngDefine('cockpit.plugin.base.views', function(module) {
       var data = {};
 
       data.suspended = !processDefinition.suspended;
-      data.includeProcessInstances = $scope.includeInstances;
-      data.executionDate = !$scope.executeImmediately ? $scope.executionDate : null;
+      data.includeProcessInstances = $scope.data.includeInstances;
+      data.executionDate = !$scope.data.executeImmediately ? $scope.data.executionDate : null;
 
       $http
       .put(Uri.appUri('engine://engine/:engine/process-definition/' + processDefinition.id + '/suspended/'), data)
       .success(function () {
         $scope.status = UPDATE_SUCCESS;
 
-        if ($scope.executeImmediately) {
+        if ($scope.data.executeImmediately) {
           Notifications.addMessage({
             status: 'Finished',
             message: 'Updated the suspension state of the process definition.',
@@ -57,7 +59,7 @@ ngDefine('cockpit.plugin.base.views', function(module) {
       }).error(function (response) {
         $scope.status = UPDATE_FAILED;
 
-        if ($scope.executeImmediately) {
+        if ($scope.data.executeImmediately) {
           Notifications.addError({
             status: 'Finished',
             message: 'Could not update the suspension state of the process definition: ' + response.message,
@@ -74,10 +76,8 @@ ngDefine('cockpit.plugin.base.views', function(module) {
     };
 
     $scope.isValid = function () {
-      if (!$scope.executeImmediately) {
-        return $scope.updateSuspensionStateForm.$valid;
-      }
-      return true;
+      var formScope = angular.element('[name="updateSuspensionStateForm"]').scope();
+      return (formScope && formScope.updateSuspensionStateForm) ? formScope.updateSuspensionStateForm.$valid : false;
     };
 
     $scope.close = function (status) {
@@ -85,8 +85,8 @@ ngDefine('cockpit.plugin.base.views', function(module) {
 
       response.status = status;
       response.suspended = !processDefinition.suspended;
-      response.executeImmediately = $scope.executeImmediately;
-      response.executionDate = $scope.executionDate;
+      response.executeImmediately = $scope.data.executeImmediately;
+      response.executionDate = $scope.data.executionDate;
 
       $modalInstance.close(response);
     };

@@ -40,7 +40,7 @@
             </span>
           </label>
           <div class="controls">
-            <input id="includeInstancesValueId" name="includeInstancesValue" type="checkbox" ng-model="includeInstances">
+            <input id="includeInstancesValueId" name="includeInstancesValue" type="checkbox" ng-model="data.includeInstances">
           </div>
         </div>
 
@@ -61,17 +61,17 @@
           </label>
           <div class="controls">
             <label class="radio">
-              <input ng-model="executeImmediately" ng-value="true" type="radio" name="execute">
+              <input ng-model="data.executeImmediately" ng-value="true" type="radio" name="execute">
               Immediately
             </label>
             <label class="radio">
-              <input ng-model="executeImmediately" ng-value="false" type="radio" name="execute">
+              <input ng-model="data.executeImmediately" ng-value="false" type="radio" name="execute">
               Delayed
             </label>
           </div>
-          <label class="control-label" for="executionDateValue" ng-show="!executeImmediately">Schedule at</label>
-          <div class="controls" ng-show="!executeImmediately">
-            <input date name="executionDateValue" ng-model="executionDate" type="text" required>
+          <label class="control-label" for="executionDateValue" ng-show="!data.executeImmediately">Schedule at</label>
+          <div class="controls" ng-show="!data.executeImmediately">
+            <input date name="executionDateValue" ng-model="data.executionDate" type="text" required>
 
             <p class="invalid" ng-show="this.updateSuspensionStateForm.executionDateValue.$error.date">
               Supported pattern 'yyyy-MM-ddTHH:mm:ss'.
@@ -95,32 +95,32 @@
   </div>
 
   <div ng-show="status === 'SUCCESS'">
-    <p ng-show="processDefinition.suspended && executeImmediately">
+    <p ng-show="processDefinition.suspended && data.executeImmediately">
       The suspension state of the process definition has been updated to "active" successfully.
     </p>
-    <p ng-show="processDefinition.suspended && !executeImmediately">
-      The activation of the process definition has been scheduled to {{ executionDate }} successfully.
+    <p ng-show="processDefinition.suspended && !data.executeImmediately">
+      The activation of the process definition has been scheduled to {{ data.executionDate }} successfully.
     </p>
-    <p ng-show="!processDefinition.suspended && executeImmediately">
+    <p ng-show="!processDefinition.suspended && data.executeImmediately">
       The suspension state of the process definition has been updated to "suspended" successfully.
     </p>
-    <p ng-show="!processDefinition.suspended && !executeImmediately">
-      The suspension of the process definition has been scheduled to {{ executionDate }} successfully.
+    <p ng-show="!processDefinition.suspended && !data.executeImmediately">
+      The suspension of the process definition has been scheduled to {{ data.executionDate }} successfully.
     </p>
   </div>
 
   <div ng-show="status === 'FAIL'">
-    <p ng-show="processDefinition.suspended && executeImmediately">
+    <p ng-show="processDefinition.suspended && data.executeImmediately">
       The suspension state of the process definition could not be updated to "active" successfully.
     </p>
-    <p ng-show="processDefinition.suspended && !executeImmediately">
-      The activation of the process definition could not be scheduled to {{ executionDate }} successfully.
+    <p ng-show="processDefinition.suspended && !data.executeImmediately">
+      The activation of the process definition could not be scheduled to {{ data.executionDate }} successfully.
     </p>
-    <p ng-show="!processDefinition.suspended && executeImmediately">
+    <p ng-show="!processDefinition.suspended && data.executeImmediately">
       The suspension state of the process definition could not be updated to "suspended" successfully.
     </p>
-    <p ng-show="!processDefinition.suspended && !executeImmediately">
-      The suspension of the process definition could not be scheduled to {{ executionDate }} successfully.
+    <p ng-show="!processDefinition.suspended && !data.executeImmediately">
+      The suspension of the process definition could not be scheduled to {{ data.executionDate }} successfully.
     </p>
   </div>
 
