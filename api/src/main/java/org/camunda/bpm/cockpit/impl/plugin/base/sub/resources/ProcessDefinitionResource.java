@@ -28,6 +28,7 @@ import org.camunda.bpm.cockpit.impl.plugin.base.dto.query.ProcessDefinitionQuery
 import org.camunda.bpm.cockpit.plugin.resource.AbstractPluginResource;
 import org.camunda.bpm.engine.impl.ProcessEngineImpl;
 import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
+import org.camunda.bpm.engine.impl.history.HistoryLevel;
 
 public class ProcessDefinitionResource extends AbstractPluginResource {
 
@@ -61,7 +62,7 @@ public class ProcessDefinitionResource extends AbstractPluginResource {
   private void injectEngineConfig(ProcessDefinitionQueryDto parameter) {
 
     ProcessEngineConfigurationImpl processEngineConfiguration = ((ProcessEngineImpl) getProcessEngine()).getProcessEngineConfiguration();
-    if (processEngineConfiguration.getHistoryLevel() == 0) {
+    if (processEngineConfiguration.getHistoryLevel().equals(HistoryLevel.HISTORY_LEVEL_NONE)) {
       parameter.setHistoryEnabled(false);
     }
 
