@@ -20,7 +20,7 @@
     <dependencies>
       <dependency>
         <groupId>org.camunda.bpm</groupId>
-        <artifactId>camunda-bom</artifactId>
+        <artifactId>camunda-parent</artifactId>
         <version>${project.version}</version>
         <type>pom</type>
         <scope>import</scope>
