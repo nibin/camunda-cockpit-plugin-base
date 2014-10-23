@@ -29,16 +29,18 @@ import org.camunda.bpm.cockpit.plugin.resource.AbstractPluginResource;
 import org.camunda.bpm.engine.impl.ProcessEngineImpl;
 import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.camunda.bpm.engine.impl.history.HistoryLevel;
+import org.camunda.bpm.engine.impl.interceptor.Command;
+import org.camunda.bpm.engine.impl.interceptor.CommandContext;
 
 public class ProcessDefinitionResource extends AbstractPluginResource {
 
   protected String id;
-  
+
   public ProcessDefinitionResource(String engineName, String id) {
     super(engineName);
     this.id = id;
   }
-  
+
   @GET
   @Path("/called-process-definitions")
   @Produces(MediaType.APPLICATION_JSON)
@@ -51,14 +53,16 @@ public class ProcessDefinitionResource extends AbstractPluginResource {
   @Path("/called-process-definitions")
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
-  public List<ProcessDefinitionDto> queryCalledProcessDefinitions(ProcessDefinitionQueryDto queryParameter) {  
-    queryParameter.setParentProcessDefinitionId(id);
-    injectEngineConfig(queryParameter);
-    List<ProcessDefinitionDto> result = getQueryService().executeQuery("selectCalledProcessDefinitions", queryParameter);
-
-    return result;
+  public List<ProcessDefinitionDto> queryCalledProcessDefinitions(final ProcessDefinitionQueryDto queryParameter) {
+    return getCommandExecutor().executeCommand(new Command<List<ProcessDefinitionDto>>() {
+      public List<ProcessDefinitionDto> execute(CommandContext commandContext) {
+        queryParameter.setParentProcessDefinitionId(id);
+        injectEngineConfig(queryParameter);
+        return getQueryService().executeQuery("selectCalledProcessDefinitions", queryParameter);
+      }
+    });
   }
-  
+
   private void injectEngineConfig(ProcessDefinitionQueryDto parameter) {
 
     ProcessEngineConfigurationImpl processEngineConfiguration = ((ProcessEngineImpl) getProcessEngine()).getProcessEngineConfiguration();
@@ -66,7 +70,7 @@ public class ProcessDefinitionResource extends AbstractPluginResource {
       parameter.setHistoryEnabled(false);
     }
 
-    parameter.initQueryVariableValues(processEngineConfiguration.getVariableTypes());
+    parameter.initQueryVariableValues(processEngineConfiguration.getVariableSerializers());
   }
-  
+
 }

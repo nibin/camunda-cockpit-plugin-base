@@ -20,7 +20,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import org.camunda.bpm.cockpit.impl.plugin.base.dto.ProcessDefinitionDto;
 import org.camunda.bpm.cockpit.rest.dto.AbstractRestQueryParametersDto;
 import org.camunda.bpm.engine.impl.QueryVariableValue;
-import org.camunda.bpm.engine.impl.variable.VariableTypes;
+import org.camunda.bpm.engine.impl.variable.serializer.VariableSerializers;
 import org.camunda.bpm.engine.rest.dto.CamundaQueryParam;
 import org.camunda.bpm.engine.rest.dto.ConditionQueryParameterDto;
 import org.camunda.bpm.engine.rest.dto.VariableQueryParameterDto;
@@ -30,21 +30,21 @@ import org.camunda.bpm.engine.rest.dto.converter.VariableListConverter;
 public class ProcessDefinitionQueryDto extends AbstractRestQueryParametersDto<ProcessDefinitionDto> {
 
   private static final long serialVersionUID = 1L;
-  
+
   protected String parentProcessDefinitionId;
   protected String superProcessDefinitionId;
   protected String[] activityIdIn;
   protected String businessKey;
-  
+
   private List<VariableQueryParameterDto> variables;
-  
+
   /**
    * Process instance compatible wrapper for query variables
    */
   private List<QueryVariableValue> queryVariableValues;
-  
+
   public ProcessDefinitionQueryDto() { }
-  
+
   public ProcessDefinitionQueryDto(MultivaluedMap<String, String> queryParameters) {
     super(queryParameters);
   }
@@ -52,16 +52,16 @@ public class ProcessDefinitionQueryDto extends AbstractRestQueryParametersDto<Pr
   public String getParentProcessDefinitionId() {
     return parentProcessDefinitionId;
   }
-  
+
   @CamundaQueryParam(value="parentProcessDefinitionId")
   public void setParentProcessDefinitionId(String parentProcessDefinitionId) {
     this.parentProcessDefinitionId = parentProcessDefinitionId;
   }
-  
+
   public String getSuperProcessDefinitionId() {
     return superProcessDefinitionId;
   }
-  
+
   @CamundaQueryParam(value="superProcessDefinitionId")
   public void setSuperProcessDefinitionId(String superProcessDefinitionId) {
     this.superProcessDefinitionId = superProcessDefinitionId;
@@ -84,7 +84,7 @@ public class ProcessDefinitionQueryDto extends AbstractRestQueryParametersDto<Pr
   public void setBusinessKey(String businessKey) {
     this.businessKey = businessKey;
   }
-  
+
   @CamundaQueryParam(value = "variables", converter = VariableListConverter.class)
   public void setVariables(List<VariableQueryParameterDto> variables) {
     this.variables = variables;
@@ -94,10 +94,10 @@ public class ProcessDefinitionQueryDto extends AbstractRestQueryParametersDto<Pr
     return queryVariableValues;
   }
 
-  public void initQueryVariableValues(VariableTypes variableTypes) {
+  public void initQueryVariableValues(VariableSerializers variableTypes) {
     queryVariableValues = createQueryVariableValues(variableTypes, variables);
   }
-  
+
   @Override
   protected String getOrderByValue(String sortBy) {
     return super.getOrderBy();
@@ -107,8 +107,8 @@ public class ProcessDefinitionQueryDto extends AbstractRestQueryParametersDto<Pr
   protected boolean isValidSortByValue(String value) {
     return false;
   }
-  
-  private List<QueryVariableValue> createQueryVariableValues(VariableTypes variableTypes, List<VariableQueryParameterDto> variables) {
+
+  private List<QueryVariableValue> createQueryVariableValues(VariableSerializers variableTypes, List<VariableQueryParameterDto> variables) {
 
     List<QueryVariableValue> values = new ArrayList<QueryVariableValue>();
 

@@ -15,7 +15,7 @@ package org.camunda.bpm.cockpit.impl.plugin.base.dto.query;
 import org.camunda.bpm.cockpit.impl.plugin.base.dto.ProcessInstanceDto;
 import org.camunda.bpm.cockpit.rest.dto.AbstractRestQueryParametersDto;
 import org.camunda.bpm.engine.impl.QueryVariableValue;
-import org.camunda.bpm.engine.impl.variable.VariableTypes;
+import org.camunda.bpm.engine.impl.variable.serializer.VariableSerializers;
 import org.camunda.bpm.engine.rest.dto.CamundaQueryParam;
 import org.camunda.bpm.engine.rest.dto.ConditionQueryParameterDto;
 import org.camunda.bpm.engine.rest.dto.VariableQueryParameterDto;
@@ -24,6 +24,7 @@ import org.camunda.bpm.engine.rest.dto.converter.StringArrayConverter;
 import org.camunda.bpm.engine.rest.dto.converter.VariableListConverter;
 
 import javax.ws.rs.core.MultivaluedMap;
+
 import java.util.*;
 
 public class ProcessInstanceQueryDto extends AbstractRestQueryParametersDto<ProcessInstanceDto> {
@@ -94,7 +95,7 @@ public class ProcessInstanceQueryDto extends AbstractRestQueryParametersDto<Proc
     return queryVariableValues;
   }
 
-  public void initQueryVariableValues(VariableTypes variableTypes) {
+  public void initQueryVariableValues(VariableSerializers variableTypes) {
     queryVariableValues = createQueryVariableValues(variableTypes, variables);
   }
 
@@ -175,7 +176,7 @@ public class ProcessInstanceQueryDto extends AbstractRestQueryParametersDto<Proc
     }
   }
 
-  private List<QueryVariableValue> createQueryVariableValues(VariableTypes variableTypes, List<VariableQueryParameterDto> variables) {
+  private List<QueryVariableValue> createQueryVariableValues(VariableSerializers variableTypes, List<VariableQueryParameterDto> variables) {
 
     List<QueryVariableValue> values = new ArrayList<QueryVariableValue>();
 

@@ -32,6 +32,8 @@ import org.camunda.bpm.cockpit.plugin.resource.AbstractPluginResource;
 import org.camunda.bpm.engine.impl.ProcessEngineImpl;
 import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.camunda.bpm.engine.impl.history.HistoryLevel;
+import org.camunda.bpm.engine.impl.interceptor.Command;
+import org.camunda.bpm.engine.impl.interceptor.CommandContext;
 import org.camunda.bpm.engine.rest.dto.CountResultDto;
 
 public class ProcessInstanceRestService extends AbstractPluginResource {
@@ -58,13 +60,17 @@ public class ProcessInstanceRestService extends AbstractPluginResource {
   @POST
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
-  public List<ProcessInstanceDto> queryProcessInstances(ProcessInstanceQueryDto queryParameter,
-      @QueryParam("firstResult") Integer firstResult, @QueryParam("maxResults") Integer maxResults) {
+  public List<ProcessInstanceDto> queryProcessInstances(final ProcessInstanceQueryDto queryParameter,
+      final @QueryParam("firstResult") Integer firstResult, final @QueryParam("maxResults") Integer maxResults) {
 
-    injectEngineConfig(queryParameter);
-    paginate(queryParameter, firstResult, maxResults);
-    
-    return getQueryService().executeQuery("selectRunningProcessInstancesIncludingIncidents", queryParameter);
+    return getCommandExecutor().executeCommand(new Command<List<ProcessInstanceDto>>() {
+      public List<ProcessInstanceDto> execute(CommandContext commandContext) {
+        injectEngineConfig(queryParameter);
+        paginate(queryParameter, firstResult, maxResults);
+        return getQueryService().executeQuery("selectRunningProcessInstancesIncludingIncidents", queryParameter);
+      }
+    });
+
   }
 
   @GET
@@ -79,12 +85,16 @@ public class ProcessInstanceRestService extends AbstractPluginResource {
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
   @Path("/count")
-  public CountResultDto queryProcessInstancesCount(ProcessInstanceQueryDto queryParameter) {
+  public CountResultDto queryProcessInstancesCount(final ProcessInstanceQueryDto queryParameter) {
 
-    injectEngineConfig(queryParameter);
+    return getCommandExecutor().executeCommand(new Command<CountResultDto>() {
+      public CountResultDto execute(CommandContext commandContext) {
+        injectEngineConfig(queryParameter);
+        long result = getQueryService().executeQueryRowCount("selectRunningProcessInstancesCount", queryParameter);
+        return new CountResultDto(result);
+      }
+    });
 
-    long result = getQueryService().executeQueryRowCount("selectRunningProcessInstancesCount", queryParameter);
-    return new CountResultDto(result);
   }
 
   private void paginate(ProcessInstanceQueryDto queryParameter, Integer firstResult, Integer maxResults) {
@@ -105,6 +115,6 @@ public class ProcessInstanceRestService extends AbstractPluginResource {
       parameter.setHistoryEnabled(false);
     }
 
-    parameter.initQueryVariableValues(processEngineConfiguration.getVariableTypes());
+    parameter.initQueryVariableValues(processEngineConfiguration.getVariableSerializers());
   }
 }
